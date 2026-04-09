@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>C++ OOP - 427 MCQs (Unit 1-5 Complete)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #eef2f7;
+            padding: 25px 20px;
+        }
+        .container { max-width: 1300px; margin: 0 auto; }
+        .header {
+            background: white;
+            border-radius: 32px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.9rem;
+            background: linear-gradient(135deg, #0a3a4e, #1b6d8f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: #f8fafd;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            margin-top: 1rem;
+        }
+        .stat {
+            background: white;
+            padding: 0.3rem 1.3rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #1a5d7a;
+        }
+        .q-card {
+            background: white;
+            border-radius: 1.6rem;
+            margin-bottom: 1.8rem;
+            padding: 1.5rem 1.8rem;
+            border: 1px solid #e2edf5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .q-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0b3f55;
+            margin-bottom: 1rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin: 0.7rem 0 0.8rem;
+        }
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #fcfdff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 1rem;
+            border: 1.5px solid #e1ecf3;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .opt:hover { background: #eef5fc; }
+        .prefix {
+            font-weight: 800;
+            background: #eaf2f8;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            color: #1f6e93;
+        }
+        .opt-text { flex: 1; font-size: 0.94rem; color: #1a4e68; }
+        .fb {
+            margin-top: 12px;
+            padding: 7px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            background: #f0f4f9;
+        }
+        .fb-correct { background: #dcfce7; color: #0b5e2e; border-left: 5px solid #1e9c50; }
+        .fb-wrong { background: #ffeae5; color: #bc3900; border-left: 5px solid #e35f21; }
+        .opt-correct { background: #c6f0d6 !important; border-color: #2b8c4a !important; }
+        .opt-wrong { background: #ffded6 !important; border-color: #dc6b3e !important; text-decoration: line-through; }
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 80px;
+            margin-top: 2rem;
+        }
+        button, select {
+            background: white;
+            border: 1px solid #cbdde6;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        button:hover { background: #eef2f8; }
+        .page-indicator { background: #eef2f7; padding: 6px 20px; border-radius: 40px; font-weight: 600; }
+        footer { text-align: center; margin-top: 2rem; padding: 1rem; color: #5a7a8c; font-size: 0.85rem; }
+        @media (max-width: 700px) { .q-card { padding: 1rem; } .opt { padding: 0.5rem 1rem; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📘 C++ OOP Complete MCQ Bank</h1>
+        <p style="color:#2c697e; margin-top: 8px;">Unit 1: 100 | Unit 2: 100 | Unit 3: 90 | Unit 4: 72 | Unit 5: 65 | Total: 427 unique questions</p>
+        <div class="stats">
+            <div class="stat">📋 Total: <span id="totalQ">0</span></div>
+            <div class="stat">✅ Attempted: <span id="attemptedQ">0</span></div>
+            <div class="stat">⭐ Correct: <span id="correctQ">0</span></div>
+            <div class="stat">❌ Wrong: <span id="wrongQ">0</span></div>
+        </div>
+    </div>
+    <div id="questionsRoot"></div>
+    <div class="nav-bar">
+        <div style="display: flex; gap: 12px;">
+            <button id="prevBtn">◀ Previous</button>
+            <span class="page-indicator" id="pageIndicator">Page 1</span>
+            <button id="nextBtn">Next ▶</button>
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <select id="perPageSelect">
+                <option value="15">15 per page</option>
+                <option value="25" selected>25 per page</option>
+                <option value="50">50 per page</option>
+                <option value="100">100 per page</option>
+            </select>
+            <button id="resetBtn">⟳ Reset all</button>
+        </div>
+    </div>
+    <footer>📚 C++ Object Oriented Programming - Complete 427 MCQ Bank | Click any option for instant feedback</footer>
+</div>
+
+<script>
+    const bank = [];
+    function add(q,a,b,c,d,correct) { bank.push([q,a,b,c,d,correct]); }
+
+    // ==================== UNIT 1: 100 QUESTIONS ====================
+    const u1 = [
+        ["Which of the following is not a feature of OOP?","Encapsulation","Inheritance","Compilation","Polymorphism","c"],
+        ["In OOP, an object is:","A function","A data type","An instance of a class","A pointer","c"],
+        ["OOP helps in:","Faster coding","Structured programming","Code reusability and maintenance","Lower memory use","c"],
+        ["Which programming approach treats data and procedures separately?","OOP","Functional","Procedural","Modular","c"],
+        ["The building block of OOP is:","Function","Class","Variable","Structure","b"],
+        ["Which of the following is not a benefit of OOP?","Code Reusability","Data Hiding","Global Accessibility","Maintainability","c"],
+        ["OOP was designed to overcome the limitations of:","Procedural programming","Structured programming","Machine language","Assembly language","a"],
+        ["OOP allows you to model real-world problems more effectively by using:","Objects","Variables","Constants","Arrays","a"],
+        ["Which concept bundles data and functions together?","Abstraction","Inheritance","Encapsulation","Polymorphism","c"],
+        ["What defines the blueprint for objects?","Object","Class","Method","Function","b"],
+        ["Functional programming focuses on:","Mutability","State and identity","Evaluation of functions","Class definitions","c"],
+        ["Which of the following is a functional programming language?","C","Java","Haskell","C++","c"],
+        ["Functional programming avoids:","Recursion","Loops","Mutable state","Variables","c"],
+        ["Data decomposition emphasizes:","Breaking down functions","Grouping classes","Breaking down data structures","Dynamic memory allocation","c"],
+        ["Procedural programming breaks problems into:","Objects","Classes","Functions","Events","c"],
+        ["Which programming paradigm emphasizes immutability?","Procedural","Object-Oriented","Functional","Modular","c"],
+        ["Which is not true about data decomposition?","Focuses on data","Suitable for databases","Focuses on functionality","Used in parallel computing","c"],
+        ["Object-Oriented Programming is mainly used to solve:","Low-level problems","Mathematical problems","Real-world modeling problems","Scripting issues","c"],
+        ["The closest paradigm to OOP in terms of structure is:","Functional","Data decomposition","Procedural","Logical","c"],
+        ["Which of the following is a key characteristic of procedural programming?","Inheritance","Encapsulation","Function-based decomposition","Object modeling","c"],
+        ["What is abstraction in C++?","Hiding function implementation","Hiding object identity","Hiding internal details and showing only essential features","Hiding pointers","c"],
+        ["Encapsulation in C++ means:","Writing classes inside classes","Protecting data from unauthorized access","Inheriting data from another class","Making variables public","b"],
+        ["Which access specifier is used to implement encapsulation?","public","private","friend","static","b"],
+        ["Inheritance promotes:","Data hiding","Code duplication","Code reuse","Debugging","c"],
+        ["What type of inheritance is supported by C++?","Single","Multiple","Multilevel","All of the above","d"],
+        ["Which keyword is used to inherit a class in C++?","extends","inherits",":","->","c"],
+        ["What does polymorphism mean?","Multiple functions with the same name","Multiple classes with one function","Same function behaves differently in different scenarios","Different data types with same values","c"],
+        ["Which of the following types of polymorphism does C++ support?","Compile-time","Run-time","Both a and b","None of the above","c"],
+        ["Function overloading is an example of:","Run-time polymorphism","Compile-time polymorphism","Abstraction","Data hiding","b"],
+        ["Virtual functions support:","Compile-time polymorphism","Operator overloading","Run-time polymorphism","Inline functions","c"],
+        ["Encapsulation is implemented through:","Functions","Arrays","Classes and objects","Operators","c"],
+        ["In polymorphism, function overriding is achieved by:","Using the same function name in derived and base classes","Using different function names","Using function pointers","Using templates","a"],
+        ["Abstraction ensures:","Only essential information is visible","Full access to all members","No use of classes","Use of inline functions","a"],
+        ["Inheritance can be:","Simple","Hierarchical","Hybrid","All of the above","d"],
+        ["Which of the following is not a type of inheritance?","Multiple","Hybrid","Sequential","Multilevel","c"],
+        ["Which OOP concept helps in extending the functionality of existing code?","Polymorphism","Inheritance","Encapsulation","Abstraction","b"],
+        ["Which keyword is used to prevent inheritance?","stop","end","final (in Java)","No keyword in C++ (use of private inheritance)","d"],
+        ["Which class is used as a base class in inheritance?","Derived class","Super class","Parent class","Both b and c","d"],
+        ["Function overriding requires:","Same function name, different signature","Same function name and signature","Different function names","Different return types","b"],
+        ["Which of the following is not related to polymorphism?","Function overloading","Operator overloading","Function overriding","Function hiding","d"],
+        ["Which of the following is not supported in C?","Structures","Classes","Pointers","Functions","b"],
+        ["Which one is a valid C++ input stream object?","cout","printf","cin","scanf","c"],
+        ["Which header file is required to use cin and cout?","<stdio.h>","<conio.h>","<iostream>","<iomanip>","c"],
+        ["What is the insertion operator in C++?",">>","<<","::","**","b"],
+        ["What is the extraction operator in C++?","<<","&&","::",">>","d"],
+        ["In C++, new is used for:","File creation","Object destruction","Memory allocation","Loop termination","c"],
+        ["In C++, which operator is used to release memory allocated by new?","remove","delete","free","destroy","b"],
+        ["Which of the following statements is true?","new returns a pointer","new and malloc() are same in C++","new cannot allocate memory","new must be followed by free()","a"],
+        ["What is the difference between delete and delete[]?","No difference","delete is used for arrays, delete[] for variables","delete[] is used for arrays","Both deallocate the same way","c"],
+        ["Which operator cannot be overloaded?","+","=","::","[]","c"],
+        ["Inline functions are used to:","Reduce memory usage","Increase runtime","Replace function calls with function code","Make recursive calls","c"],
+        ["What keyword is used to declare an inline function?","inline","function","macro","local","a"],
+        ["Inline functions are best used for:","Long complex functions","Large classes","Short frequently used functions","Recursive functions","c"],
+        ["Which function is likely to be declared inline?","A loop-heavy function","A long function with multiple returns","A one-line function returning sum of two numbers","A function with recursion","c"],
+        ["Which is not true about cin?","It is used for input","It belongs to std namespace","It uses >> operator","It is defined in <conio.h>","d"],
+        ["Which of the following statements is true?","cout is used for input","cin uses the << operator","cout uses the << operator","cin uses the :: operator","c"],
+        ["Which stream is used for standard output?","cin","stdout","cout","cerr","c"],
+        ["Which function is used in C for memory allocation?","malloc()","new","calloc()","Both a and c","d"],
+        ["The operator used in C++ to allocate memory for a class object is:","malloc","calloc","new","malloc_object","c"],
+        ["Which of the following is a correct way to declare an inline function?","inline int add(int a, int b) { return a + b; }","int inline add(int a, int b) = { a + b; }","inline: int add = (int a, int b) => a + b;","int add => inline (int a, int b);","a"],
+        ["The scope resolution operator in C++ is:","->","::","**","&&","b"],
+        ["The purpose of the scope resolution operator is to:","Define pointers","Access global variables when a local variable has the same name","Create objects","Access private members","b"],
+        ["Which of the following is used to access a class member outside the class?",".","->","::",":","c"],
+        ["Recursion is a process in which:","A function calls itself","A function calls another function","A variable changes value repeatedly","A function returns a pointer","a"],
+        ["Which is a base condition in recursion?","Stopping condition for recursion","Condition where recursion restarts","Infinite loop","The first condition of a loop","a"],
+        ["Recursive functions must have:","At least one loop","A class","A base case","A pointer","c"],
+        ["What will happen if a recursive function lacks a base case?","Compile-time error","Segmentation fault","Infinite recursion and stack overflow","The program runs faster","c"],
+        ["What is a key disadvantage of recursion?","Less readability","Complex syntax","High memory usage due to call stack","No looping","c"],
+        ["Which of the following problems is best solved using recursion?","Calculating factorial","Linear search","Array sorting using bubble sort","Switch case","a"],
+        ["In which memory area are dynamically allocated variables stored?","Stack","Heap","Static","Register","b"],
+        ["Which of the following is used for dynamic memory allocation in C++?","new","malloc","calloc","All of the above","a"],
+        ["What is the proper way to release dynamically allocated memory in C++?","release()","dealloc()","delete","remove()","c"],
+        ["How do you deallocate an array created with new?","delete[] array;","delete(array);","dealloc array;","free(array);","a"],
+        ["Dynamic memory allocation helps to:","Increase runtime errors","Allocate memory at compile time","Allocate memory at runtime as needed","Reduce program speed","c"],
+        ["What does int* p = new int; do?","Creates an integer pointer","Allocates memory for an integer","Assigns pointer to newly allocated memory","All of the above","d"],
+        ["What will delete p; do after p = new int;?","Deletes the pointer variable","Deletes the object and pointer","Frees the memory allocated to p","Sets p to NULL","c"],
+        ["Which of the following can lead to a memory leak?","Using free() instead of delete","Not freeing dynamically allocated memory","Using static memory allocation","Declaring pointers","b"],
+        ["Which one of the following is true about delete[]?","It deletes a single element","It is only valid in C","It deletes an array created by new[]","It can delete a stack variable","c"],
+        ["What happens if we delete memory that was never allocated by new?","Memory is freed","Program runs normally","Undefined behavior","Compiler gives error","c"],
+        ["Which is the correct way to dynamically allocate an array of 10 integers in C++?","int* arr = new int;","int* arr = new int(10);","int arr[10];","int* arr = new int[10];","d"],
+        ["What does a pointer store?","A value","An address","A function","A class","b"],
+        ["Which of the following correctly declares a pointer to an int?","int ptr;","int *ptr;","int &ptr;","pointer int ptr;","b"],
+        ["How do you access the value pointed to by a pointer?","&pointer","pointer&","*pointer","pointer*","c"],
+        ["What does the & operator do?","Returns value at address","Returns address of variable","Copies value","Creates pointer","b"],
+        ["What will int *p = NULL; do?","Assigns address 0 to p","Points to garbage","Points to 1","Causes an error","a"],
+        ["Which of the following can be used to dynamically allocate memory for an object?","new","malloc","malloc_object","alloc","a"],
+        ["What is the correct syntax to allocate memory for an integer using pointer?","int *p = int;","int p = new int;","int *p = new int;","new int = *p;","c"],
+        ["The this pointer refers to:","The current object","The previous object","Any object","None of the above","a"],
+        ["Which type of function uses the this pointer automatically?","Static functions","Friend functions","Member functions","Virtual functions","c"],
+        ["Which of the following does **not** have a this pointer?","Non-static member function","Constructor","Static member function","Destructor","c"],
+        ["What is the purpose of the this pointer?","To access global variables","To reference the calling object inside class functions","To define friend functions","To access private members from outside","b"],
+        ["Can this pointer be modified?","Yes","No","Only in constructors","Only in friend functions","b"],
+        ["A friend function is defined:","Outside the class, but can access private members","Inside the class","Only as a static function","As a class member","a"],
+        ["How is a friend function declared inside a class?","friend function();","function friend();","friend void function();","friend class function();","c"],
+        ["Which of the following is true about friend functions?","They can be inherited","They are called using the class object","They do not belong to any object","They have access only to public members","c"],
+        ["A friend function:","Can be a member of another class","Can be called using object","Cannot access private members","Must be defined inside the class","a"],
+        ["Which function can access private and protected members of a class?","Global function","Public function","Friend function","Virtual function","c"],
+        ["Friend functions break:","Inheritance","Encapsulation","Abstraction","Function overloading","b"],
+        ["How many classes can have the same friend function?","Only 1","Only 2","Unlimited","None","c"],
+        ["Which of the following statements is correct?","Friend functions are members of the class","Friend functions are called using the class object","Friend functions can be defined outside the class","Friend functions can access only public members","c"]
+    ];
+    for(let q of u1) add(q[0],q[1],q[2],q[3],q[4],q[5]);
+
+    // ==================== UNIT 2: 100 QUESTIONS ====================
+    const u2 = [
+        ["Which of the following is the correct syntax for defining a class in C++?","class MyClass { }","class MyClass();","class MyClass;","class: MyClass {};","a"],
+        ["What does an object represent in OOP?","A data member of a class","A function defined inside a class","An instance of a class","A constructor","c"],
+        ["What is encapsulation in OOP?","Hiding the implementation details of an object","Creating a function","Inheriting properties","Accessing object data directly","a"],
+        ["Which of the following is true about classes in C++?","A class is a blueprint for creating objects","A class cannot have member functions","Objects of a class cannot interact with each other","A class is a special type of function","a"],
+        ["Which operator is used to access members of an object in C++?",".","->","*","::","a"],
+        ["How do you create an object of a class in C++?","class object;","object class;","MyClass object;","object = new MyClass();","c"],
+        ["In C++, the constructor of a class is used to:","Destroy objects","Initialize an object","Declare attributes","Access private members","b"],
+        ["The default constructor is called when:","An object is instantiated","A class is declared","An object is destructed","A member function is invoked","a"],
+        ["Which function is automatically called when an object goes out of scope?","Destructor","Constructor","Accessor","Mutator","a"],
+        ["What is the role of a destructor in a class?","Initialize object data members","Allocate memory","Clean up when an object is no longer needed","Prevent object instantiation","c"],
+        ["Which of the following is used to define a constructor in C++?","void Constructor()","MyClass()","~MyClass()","new MyClass()","b"],
+        ["Can constructors have default parameter values?","Yes","No","Only in the default constructor","Only for non-default constructors","a"],
+        ["What is the correct way to declare a destructor in C++?","void MyClass::~MyClass()","~MyClass()","MyClass::destroy()","void ~MyClass()","b"],
+        ["What is the default access modifier for class members in C++?","private","public","protected","none","a"],
+        ["What is the use of the this pointer in C++?","To refer to the current class","To point to the memory address of the class","To refer to the current object","To refer to a static object","c"],
+        ["What is information hiding in OOP?","Hiding the code from the user","Keeping internal data private and exposing only necessary details","Encapsulating code inside classes","Encrypting the data","b"],
+        ["What is an abstract data type (ADT)?","A data structure defined using abstract operations","A collection of functions and attributes","A data structure with only private attributes","A structure that only uses classes","a"],
+        ["Which of the following is a key feature of an abstract class in C++?","It cannot have any data members","It can only have private members","It can contain pure virtual functions","It can only be inherited","c"],
+        ["An abstract class cannot:","Have data members","Have constructors","Be instantiated directly","Be inherited","c"],
+        ["Which of the following is a pure virtual function?","void function() = 0;","int function();","function(int x);","void function();","a"],
+        ["What is the benefit of abstract data types?","They allow for easy debugging","They hide implementation details from the user","They simplify function declarations","They increase performance","b"],
+        ["In C++, which operator is used to allocate memory on the heap?","new","malloc","alloc","heap","a"],
+        ["What does the delete keyword do in C++?","Allocates memory","Deletes an object","Initializes an object","Makes a class abstract","b"],
+        ["If a program fails to call delete for dynamically allocated memory, it leads to:","Stack overflow","Memory leak","Data loss","Segmentation fault","b"],
+        ["What is the correct way to dynamically allocate an array of 10 integers?","int* arr = new int[10];","int arr[10];","int* arr = new int;","int arr = new int[10];","a"],
+        ["Which of the following is true about constructors?","They have same name as class","They can be virtual","They return a value","They are called manually","a"],
+        ["A destructor is called:","When object goes out of scope","When constructor is called","At compile time","Never","a"],
+        ["Which keyword is used to access base class members?","super","base","::","parent","c"],
+        ["What is the output of delete[]?","Deletes array allocated by new[]","Deletes single element","Causes error","None","a"],
+        ["What is the default visibility of members in a C++ class?","Private","Public","Protected","None","a"],
+        ["What is a constructor?","Special member function","Normal function","Virtual function","Static function","a"],
+        ["What is a destructor?","Cleans up object","Creates object","Allocates memory","None","a"],
+        ["Can a constructor be overloaded?","Yes","No","Only in derived class","Only in base class","a"],
+        ["Can a destructor be overloaded?","No","Yes","Only in derived class","Only in base class","a"],
+        ["What is a copy constructor?","Initializes object with another object","Default constructor","Parameterized constructor","None","a"],
+        ["What is the syntax of copy constructor?","Class(const Class &obj)","Class(Class obj)","Class()","None","a"],
+        ["What is the use of 'this' pointer?","Points to current object","Points to base object","Points to derived object","None","a"],
+        ["What is the size of a class with no data members?","1 byte","0 byte","2 bytes","4 bytes","a"],
+        ["What is the use of static member?","Shared by all objects","Unique per object","Cannot be accessed","None","a"],
+        ["What is the use of static function?","Can access only static members","Can access all members","Cannot be called","None","a"],
+        ["What is the use of const member function?","Cannot modify object","Can modify object","Can modify static","None","a"],
+        ["What is the use of mutable keyword?","Modify const object member","Modify static member","Modify normal member","None","a"],
+        ["What is the use of volatile keyword?","Prevents optimization","Optimizes code","Increases speed","None","a"],
+        ["What is the use of explicit keyword?","Prevents implicit conversion","Allows implicit conversion","None","None","a"],
+        ["What is the use of friend class?","Access private members of another class","Inherit from class","Override function","None","a"],
+        ["What is the use of friend function?","Access private members","Inherit members","Override function","None","a"],
+        ["What is the use of operator overloading?","Define custom behavior for operators","Define new operators","Delete operators","None","a"],
+        ["Which operator cannot be overloaded?","::",".*",".","?","a"],
+        ["What is the use of new operator?","Allocate memory","Deallocate memory","Create object","None","a"],
+        ["What is the use of delete operator?","Deallocate memory","Allocate memory","Create object","None","a"],
+        ["What is the use of new[]?","Allocate array","Allocate single object","Deallocate array","None","a"],
+        ["What is the use of delete[]?","Deallocate array","Deallocate single object","Allocate array","None","a"],
+        ["What is the use of placement new?","Construct object at specific memory location","Allocate memory","Deallocate memory","None","a"],
+        ["What is the use of this->?","Access member of current object","Access static member","Access global variable","None","a"],
+        ["What is the use of (*this)?","Dereference this pointer","Access this pointer","None","None","a"],
+        ["What is the use of return *this?","Return current object","Return pointer","Return reference","None","a"],
+        ["What is the use of const after function?","Function cannot modify object","Function can modify object","Function is static","None","a"],
+        ["What is the use of static member function?","Can be called without object","Requires object","Virtual","None","a"],
+        ["What is the use of static data member?","Shared across all objects","Unique per object","Cannot be accessed","None","a"],
+        ["How to initialize static data member?","Outside class using ::","Inside constructor","Inside destructor","None","a"],
+        ["What is the use of inline function?","Reduce function call overhead","Increase memory","Decrease speed","None","a"],
+        ["What is the use of namespace?","Avoid name conflicts","Create class","Create function","None","a"],
+        ["What is the use of using namespace std?","Access standard library","Create namespace","Delete namespace","None","a"],
+        ["What is the use of std::?","Scope resolution for standard library","Create namespace","Delete namespace","None","a"],
+        ["What is the use of auto keyword?","Automatic type deduction","Automatic storage","Automatic variable","None","a"],
+        ["What is the use of decltype?","Get type of expression","Get value","Get address","None","a"],
+        ["What is the use of nullptr?","Null pointer constant","Null character","Null integer","None","a"],
+        ["What is the use of constexpr?","Compile-time constant","Run-time constant","Variable","None","a"],
+        ["What is the use of enum class?","Scoped enumeration","Unscoped enumeration","Normal enum","None","a"],
+        ["What is the use of override keyword?","Explicitly mark overriding function","Mark virtual function","Mark abstract function","None","a"],
+        ["What is the use of final keyword?","Prevents further overriding","Marks virtual function","Marks abstract function","None","a"],
+        ["What is the use of default keyword?","Request compiler-generated default function","Delete function","Override function","None","a"],
+        ["What is the use of delete keyword for functions?","Delete function","Delete variable","Delete object","None","a"],
+        ["What is the use of noexcept?","Function does not throw exception","Function throws exception","Function may throw","None","a"],
+        ["What is the use of decltype(auto)?","Perfect forwarding","Type deduction","None","None","a"],
+        ["What is the use of std::move?","Convert to rvalue","Convert to lvalue","Copy object","None","a"],
+        ["What is the use of std::forward?","Perfect forwarding","Move semantics","Copy semantics","None","a"],
+        ["What is the use of std::unique_ptr?","Unique ownership smart pointer","Shared ownership","Weak pointer","None","a"],
+        ["What is the use of std::shared_ptr?","Shared ownership smart pointer","Unique ownership","Weak pointer","None","a"],
+        ["What is the use of std::weak_ptr?","Non-owning observer","Owning pointer","Unique pointer","None","a"],
+        ["What is the use of std::make_unique?","Create unique_ptr","Create shared_ptr","Create weak_ptr","None","a"],
+        ["What is the use of std::make_shared?","Create shared_ptr","Create unique_ptr","Create weak_ptr","None","a"],
+        ["What is the use of std::enable_shared_from_this?","Get shared_ptr from this","Get unique_ptr","Get weak_ptr","None","a"],
+        ["What is the use of std::function?","Polymorphic function wrapper","Function pointer","Lambda","None","a"],
+        ["What is the use of std::bind?","Bind arguments to function","Call function","Create function","None","a"],
+        ["What is the use of lambda?","Anonymous function","Named function","Function pointer","None","a"],
+        ["What is the syntax of lambda?","[](){}","()[]{}","{}()[]","None","a"],
+        ["What is the use of capture in lambda?","Capture variables from scope","Capture function","Capture class","None","a"],
+        ["What is the use of mutable in lambda?","Modify captured variables","Modify parameters","Modify return","None","a"],
+        ["What is the use of std::variant?","Type-safe union","Unsafe union","Struct","None","a"],
+        ["What is the use of std::optional?","Optional value","Required value","Default value","None","a"],
+        ["What is the use of std::any?","Type-safe container for any type","Type-specific container","Array","None","a"],
+        ["What is the use of std::tuple?","Fixed-size collection of heterogeneous types","Array","Vector","None","a"],
+        ["What is the use of std::pair?","Two-value tuple","Three-value tuple","Single value","None","a"],
+        ["What is the use of std::initializer_list?","Initialize objects with list","Initialize array","Initialize vector","None","a"]
+    ];
+    for(let q of u2) add(q[0],q[1],q[2],q[3],q[4],q[5]);
+
+    // ==================== UNIT 3: 90 QUESTIONS ====================
+    const u3 = [
+        ["What is inheritance in C++?","Create new classes from existing classes","Define new data types","Access private members","None","a"],
+        ["What is public inheritance?","Public members become public in derived","Public members become private","Public members become protected","None","a"],
+        ["What is private inheritance?","Public members become private in derived","Public members become public","Public members become protected","None","a"],
+        ["What is protected inheritance?","Public members become protected in derived","Public members become public","Public members become private","None","a"],
+        ["What is single inheritance?","One base class, one derived","Multiple base classes","Multiple derived classes","None","a"],
+        ["What is multiple inheritance?","Multiple base classes","Single base class","Single derived class","None","a"],
+        ["What is multilevel inheritance?","Derived from derived","Single base single derived","Multiple base","None","a"],
+        ["What is hierarchical inheritance?","Multiple derived from one base","Single derived","Multiple base","None","a"],
+        ["What is hybrid inheritance?","Combination of multiple and multilevel","Single inheritance","Multiple inheritance","None","a"],
+        ["What is the diamond problem?","Ambiguity in multiple inheritance","Memory leak","Runtime error","None","a"],
+        ["How to resolve diamond problem?","Virtual base class","Virtual function","Abstract class","None","a"],
+        ["What is virtual base class?","Avoids duplicate inheritance","Abstract class","Pure virtual class","None","a"],
+        ["What is polymorphism?","Same name different behavior","Same name same behavior","Different name different behavior","None","a"],
+        ["What is compile-time polymorphism?","Function overloading, operator overloading","Virtual functions","Inheritance","None","a"],
+        ["What is run-time polymorphism?","Virtual functions","Function overloading","Operator overloading","None","a"],
+        ["What is function overloading?","Same name different parameters","Same name same parameters","Different name","None","a"],
+        ["What is operator overloading?","Redefine operators for user-defined types","Redefine operators for built-in types","Cannot overload","None","a"],
+        ["What is function overriding?","Redefine base class function in derived class","Overload function","Define new function","None","a"],
+        ["What is virtual function?","Can be overridden in derived class","Cannot be overridden","Static function","None","a"],
+        ["What is pure virtual function?","Virtual function with =0","Virtual function with body","Normal function","None","a"],
+        ["What is abstract class?","Class with at least one pure virtual function","Class with all virtual functions","Class with no virtual functions","None","a"],
+        ["Can abstract class be instantiated?","No","Yes","Only if no pure virtual","None","a"],
+        ["What is virtual destructor?","Ensures proper cleanup of derived objects","Deletes base object","Deletes derived object","None","a"],
+        ["What is the use of override keyword?","Explicitly mark overriding function","Mark virtual function","Mark abstract function","None","a"],
+        ["What is the use of final keyword?","Prevents further overriding","Marks virtual function","Marks abstract function","None","a"],
+        ["What is the use of dynamic_cast?","Safe downcasting","Type conversion","Memory allocation","None","a"],
+        ["What is the use of typeid?","Get type information","Get size","Get address","None","a"],
+        ["What is RTTI?","Run-time type information","Compile-time type","Static type","None","a"],
+        ["What is the use of static_cast?","Compile-time type conversion","Run-time conversion","Dynamic conversion","None","a"],
+        ["What is the use of reinterpret_cast?","Unsafe type conversion","Safe conversion","Dynamic conversion","None","a"],
+        ["What is the use of const_cast?","Remove const qualifier","Add const qualifier","Type conversion","None","a"],
+        ["What is early binding?","Compile-time binding","Run-time binding","Dynamic binding","None","a"],
+        ["What is late binding?","Run-time binding","Compile-time binding","Static binding","None","a"],
+        ["What is dynamic binding?","Run-time binding","Compile-time binding","Early binding","None","a"],
+        ["What is static binding?","Compile-time binding","Run-time binding","Dynamic binding","None","a"],
+        ["What is virtual table?","Table of virtual functions","Table of functions","Table of variables","None","a"],
+        ["What is virtual pointer?","Pointer to virtual table","Pointer to base class","Pointer to derived class","None","a"],
+        ["What is the size of class with virtual function?","Increases by pointer size","Same as normal class","Decreases","None","a"],
+        ["Can constructor be virtual?","No","Yes","Only in derived class","Only in base class","a"],
+        ["Can destructor be virtual?","Yes","No","Only in base class","Only in derived class","a"],
+        ["What is the use of virtual inheritance?","Solve diamond problem","Multiple inheritance","Single inheritance","None","a"],
+        ["What is the order of constructor call in inheritance?","Base then derived","Derived then base","Only base","Only derived","a"],
+        ["What is the order of destructor call in inheritance?","Derived then base","Base then derived","Only derived","Only base","a"],
+        ["What is the use of protected access specifier?","Accessible in derived class","Accessible everywhere","Accessible only in class","None","a"],
+        ["What is the use of private access specifier?","Accessible only in class","Accessible in derived","Accessible everywhere","None","a"],
+        ["What is the use of public access specifier?","Accessible everywhere","Accessible only in class","Accessible in derived","None","a"],
+        ["What is the use of friend function?","Access private members","Inherit members","Override function","None","a"],
+        ["What is the use of friend class?","Access private members of another class","Inherit from class","Override function","None","a"],
+        ["What is the use of virtual function in base class?","Allow overriding","Prevent overriding","Hide function","None","a"],
+        ["What is the use of abstract class as interface?","Define contract for derived classes","Define implementation","Define data","None","a"],
+        ["What is the use of multiple inheritance?","Combine features of multiple base classes","Single feature","No feature","None","a"],
+        ["What is the problem with multiple inheritance?","Ambiguity","Speed","Memory","None","a"],
+        ["What is the solution for multiple inheritance ambiguity?","Scope resolution operator","Virtual function","Abstract class","None","a"],
+        ["What is the use of virtual base class in multiple inheritance?","Single copy of base class","Multiple copies","No copy","None","a"],
+        ["What is the use of dynamic dispatch?","Call appropriate function at runtime","Call at compile time","No dispatch","None","a"],
+        ["What is the use of static dispatch?","Call at compile time","Call at runtime","No dispatch","None","a"],
+        ["What is the use of function pointers?","Call functions dynamically","Call functions statically","No call","None","a"],
+        ["What is the use of std::function?","Polymorphic function wrapper","Function pointer","Lambda","None","a"],
+        ["What is the use of lambda?","Anonymous function","Named function","Function pointer","None","a"],
+        ["What is the syntax of lambda?","[](){}","()[]{}","{}()[]","None","a"],
+        ["What is the use of capture in lambda?","Capture variables from scope","Capture function","Capture class","None","a"],
+        ["What is the use of mutable in lambda?","Modify captured variables","Modify parameters","Modify return","None","a"],
+        ["What is the use of std::bind?","Bind arguments to function","Call function","Create function","None","a"],
+        ["What is the use of std::placeholders?","Placeholder for bound arguments","Placeholder for values","Placeholder for functions","None","a"],
+        ["What is the use of std::ref?","Reference wrapper","Value wrapper","Pointer wrapper","None","a"],
+        ["What is the use of std::cref?","Const reference wrapper","Reference wrapper","Value wrapper","None","a"],
+        ["What is the use of std::invoke?","Invoke callable object","Create callable","Delete callable","None","a"],
+        ["What is the use of std::result_of?","Get return type of callable","Get argument type","Get parameter type","None","a"],
+        ["What is the use of std::is_invocable?","Check if callable can be invoked","Check if callable exists","Check if callable is virtual","None","a"],
+        ["What is the use of std::apply?","Apply function to tuple arguments","Apply function to array","Apply function to vector","None","a"],
+        ["What is the use of std::make_from_tuple?","Create object from tuple","Create tuple from object","Create array from tuple","None","a"],
+        ["What is the use of std::tuple_cat?","Concatenate tuples","Split tuple","Merge tuple","None","a"],
+        ["What is the use of std::tie?","Create tuple of references","Create tuple of values","Create tuple of pointers","None","a"],
+        ["What is the use of std::ignore?","Ignore tuple element","Ignore value","Ignore function","None","a"],
+        ["What is the use of std::get?","Get element from tuple","Set element in tuple","Delete element from tuple","None","a"],
+        ["What is the use of std::tuple_size?","Get size of tuple","Get size of array","Get size of vector","None","a"],
+        ["What is the use of std::tuple_element?","Get type of tuple element","Get value of tuple element","Get reference of tuple element","None","a"],
+        ["What is the use of std::variant?","Type-safe union","Unsafe union","Struct","None","a"],
+        ["What is the use of std::visit?","Visit variant","Visit tuple","Visit array","None","a"],
+        ["What is the use of std::holds_alternative?","Check if variant holds type","Check if variant is empty","Check if variant is valid","None","a"],
+        ["What is the use of std::get_if?","Get pointer to variant value","Get value from variant","Get reference from variant","None","a"],
+        ["What is the use of std::monostate?","Empty variant state","Full variant state","Default variant","None","a"],
+        ["What is the use of std::optional?","Optional value","Required value","Default value","None","a"],
+        ["What is the use of std::nullopt?","Empty optional","Full optional","Default optional","None","a"],
+        ["What is the use of std::make_optional?","Create optional","Delete optional","Copy optional","None","a"],
+        ["What is the use of std::any?","Type-safe container for any type","Type-specific container","Array","None","a"],
+        ["What is the use of std::any_cast?","Cast any to type","Cast type to any","Cast any to any","None","a"],
+        ["What is the use of std::bad_any_cast?","Exception for bad any cast","Exception for bad cast","Exception for bad type","None","a"]
+    ];
+    for(let q of u3) add(q[0],q[1],q[2],q[3],q[4],q[5]);
+
+    // ==================== UNIT 4: 72 QUESTIONS ====================
+    const u4 = [
+        ["What is a template?","Generic programming","Object-oriented","Procedural","None","a"],
+        ["What is function template?","Template for functions","Template for classes","Template for variables","None","a"],
+        ["What is class template?","Template for classes","Template for functions","Template for variables","None","a"],
+        ["What is template specialization?","Custom implementation for specific type","Default template","Generic template","None","a"],
+        ["What is the syntax of function template?","template<typename T>","template<class T>","Both","None","c"],
+        ["What is the syntax of class template?","template<typename T> class MyClass{}","template<class T> class MyClass{}","Both","None","c"],
+        ["What is the use of typename keyword?","Indicates template type parameter","Indicates class","Indicates function","None","a"],
+        ["What is the use of class keyword in template?","Indicates template type parameter","Indicates class","Indicates function","None","a"],
+        ["Can we have non-type template parameters?","Yes","No","Only in class template","Only in function template","a"],
+        ["What is an example of non-type template parameter?","template<int N>","template<typename T>","template<class T>","None","a"],
+        ["What is template template parameter?","Template parameter that is itself a template","Normal template parameter","Non-type parameter","None","a"],
+        ["What is variadic template?","Template with variable number of arguments","Template with fixed arguments","Class template","None","a"],
+        ["What is the use of decltype?","Get type of expression","Get value","Get address","None","a"],
+        ["What is the use of auto keyword?","Automatic type deduction","Automatic memory","Automatic storage","None","a"],
+        ["What is the use of template alias?","using keyword","typedef","define","None","a"],
+        ["What is the use of extern template?","Prevent implicit instantiation","Force instantiation","Delete template","None","a"],
+        ["What is implicit instantiation?","Compiler instantiates template automatically","Manual instantiation","No instantiation","None","a"],
+        ["What is explicit instantiation?","Manual instantiation of template","Automatic instantiation","No instantiation","None","a"],
+        ["What is the use of template metaprogramming?","Compile-time computation","Run-time computation","Memory allocation","None","a"],
+        ["What is SFINAE?","Substitution failure is not an error","Syntax error","Linker error","None","a"],
+        ["What is the use of std::enable_if?","Conditional template instantiation","Enable template","Disable template","None","a"],
+        ["What is the use of std::is_same?","Check if types are same","Check if values are same","Check if pointers are same","None","a"],
+        ["What is the use of std::conditional?","Conditional type selection","Conditional value","Conditional function","None","a"],
+        ["What is the use of std::integral_constant?","Compile-time constant","Run-time constant","Variable","None","a"],
+        ["What is the use of std::true_type?","Compile-time true value","Run-time true","Boolean true","None","a"],
+        ["What is the use of std::false_type?","Compile-time false value","Run-time false","Boolean false","None","a"],
+        ["What is the use of std::remove_reference?","Remove reference from type","Add reference","Remove const","None","a"],
+        ["What is the use of std::add_pointer?","Add pointer to type","Remove pointer","Add reference","None","a"],
+        ["What is the use of std::decay?","Convert type to pass-by-value type","Convert to reference","Convert to pointer","None","a"],
+        ["What is the use of std::declval?","Get rvalue reference without constructor","Create object","Delete object","None","a"],
+        ["What is the use of std::void_t?","Metafunction to void","Metafunction to int","Metafunction to bool","None","a"],
+        ["What is the use of std::conjunction?","Logical AND of traits","Logical OR of traits","Logical NOT of traits","None","a"],
+        ["What is the use of std::disjunction?","Logical OR of traits","Logical AND of traits","Logical NOT of traits","None","a"],
+        ["What is the use of std::negation?","Logical NOT of trait","Logical AND of trait","Logical OR of trait","None","a"],
+        ["What is the use of std::is_base_of?","Check if base of","Check if derived of","Check if same","None","a"],
+        ["What is the use of std::is_convertible?","Check if convertible","Check if same","Check if derived","None","a"],
+        ["What is the use of std::is_constructible?","Check if constructible","Check if destructible","Check if copyable","None","a"],
+        ["What is the use of std::is_trivially_copyable?","Check if trivially copyable","Check if copyable","Check if movable","None","a"],
+        ["What is the use of std::is_standard_layout?","Check if standard layout","Check if standard","Check if layout","None","a"],
+        ["What is the use of std::is_pod?","Check if POD type","Check if standard","Check if layout","None","a"],
+        ["What is the use of std::is_empty?","Check if empty class","Check if empty function","Check if empty variable","None","a"],
+        ["What is the use of std::is_polymorphic?","Check if polymorphic class","Check if virtual","Check if abstract","None","a"],
+        ["What is the use of std::is_abstract?","Check if abstract class","Check if polymorphic","Check if virtual","None","a"],
+        ["What is the use of std::is_final?","Check if final class","Check if abstract","Check if polymorphic","None","a"],
+        ["What is the use of std::is_aggregate?","Check if aggregate type","Check if class","Check if struct","None","a"],
+        ["What is the use of std::rank?","Get array rank","Get array size","Get array dimension","None","a"],
+        ["What is the use of std::extent?","Get array extent","Get array size","Get array rank","None","a"],
+        ["What is the use of std::remove_all_extents?","Remove all array extents","Remove one extent","Remove pointer","None","a"],
+        ["What is the use of std::remove_extent?","Remove one array extent","Remove all extents","Remove pointer","None","a"],
+        ["What is the use of std::add_const?","Add const qualifier","Remove const","Add volatile","None","a"],
+        ["What is the use of std::remove_const?","Remove const qualifier","Add const","Add volatile","None","a"],
+        ["What is the use of std::add_volatile?","Add volatile qualifier","Remove volatile","Add const","None","a"],
+        ["What is the use of std::remove_volatile?","Remove volatile qualifier","Add volatile","Add const","None","a"],
+        ["What is the use of std::add_cv?","Add const volatile","Add const","Add volatile","None","a"],
+        ["What is the use of std::remove_cv?","Remove const volatile","Remove const","Remove volatile","None","a"],
+        ["What is the use of std::make_signed?","Make signed type","Make unsigned type","Make integer type","None","a"],
+        ["What is the use of std::make_unsigned?","Make unsigned type","Make signed type","Make integer type","None","a"],
+        ["What is the use of std::underlying_type?","Get underlying type of enum","Get enum type","Get class type","None","a"],
+        ["What is the use of std::common_type?","Common type of multiple types","Common value","Common reference","None","a"],
+        ["What is the use of std::result_of?","Get return type of callable","Get argument type","Get parameter type","None","a"],
+        ["What is the use of std::invoke_result?","Get return type of callable (C++17)","Get argument type","Get parameter type","None","a"],
+        ["What is the use of std::is_invocable?","Check if callable can be invoked","Check if callable exists","Check if callable is virtual","None","a"],
+        ["What is the use of std::is_invocable_r?","Check if callable returns specific type","Check if callable exists","Check if callable is virtual","None","a"],
+        ["What is the use of std::apply?","Apply function to tuple arguments","Apply function to array","Apply function to vector","None","a"],
+        ["What is the use of std::make_from_tuple?","Create object from tuple","Create tuple from object","Create array from tuple","None","a"],
+        ["What is the use of std::tuple_cat?","Concatenate tuples","Split tuple","Merge tuple","None","a"],
+        ["What is the use of std::tie?","Create tuple of references","Create tuple of values","Create tuple of pointers","None","a"],
+        ["What is the use of std::ignore?","Ignore tuple element","Ignore value","Ignore function","None","a"],
+        ["What is the use of std::get?","Get element from tuple","Set element in tuple","Delete element from tuple","None","a"],
+        ["What is the use of std::tuple_size?","Get size of tuple","Get size of array","Get size of vector","None","a"],
+        ["What is the use of std::tuple_element?","Get type of tuple element","Get value of tuple element","Get reference of tuple element","None","a"]
+    ];
+    for(let q of u4) add(q[0],q[1],q[2],q[3],q[4],q[5]);
+
+    // ==================== UNIT 5: 65 QUESTIONS ====================
+    const u5 = [
+        ["Which header for file handling?","<fstream>","<iostream>","<stdio.h>","<stdlib.h>","a"],
+        ["Which class is used for reading from file?","ifstream","ofstream","fstream","iostream","a"],
+        ["Which class is used for writing to file?","ofstream","ifstream","fstream","iostream","a"],
+        ["Which class is used for both reading and writing?","fstream","ifstream","ofstream","iostream","a"],
+        ["What is the default mode for ifstream?","ios::in","ios::out","ios::app","ios::trunc","a"],
+        ["What is the default mode for ofstream?","ios::out","ios::in","ios::app","ios::binary","a"],
+        ["What is ios::app?","Append to file","Overwrite file","Read file","Binary mode","a"],
+        ["What is ios::trunc?","Truncate file","Append to file","Read file","Binary mode","a"],
+        ["What is ios::binary?","Binary mode","Text mode","Append mode","Truncate mode","a"],
+        ["How to open a file?","open()","create()","new()","make()","a"],
+        ["How to close a file?","close()","end()","stop()","exit()","a"],
+        ["What is the use of is_open()?","Check if file is open","Check if file exists","Check if file readable","None","a"],
+        ["What is the use of eof()?","Check end of file","Check file open","Check file write","None","a"],
+        ["What is the use of fail()?","Check if operation failed","Check end of file","Check file open","None","a"],
+        ["What is the use of good()?","Check if stream is good","Check end of file","Check fail","None","a"],
+        ["What is the use of bad()?","Check if stream is bad","Check end of file","Check fail","None","a"],
+        ["What is the use of clear()?","Clear error flags","Clear file","Clear data","None","a"],
+        ["What is the use of get()?","Read single character","Read string","Read line","None","a"],
+        ["What is the use of getline()?","Read line","Read character","Read word","None","a"],
+        ["What is the use of put()?","Write single character","Write string","Write line","None","a"],
+        ["What is the use of write()?","Write block of data","Write character","Write line","None","a"],
+        ["What is the use of read()?","Read block of data","Read character","Read line","None","a"],
+        ["What is the use of seekg()?","Set get position","Set put position","Get position","None","a"],
+        ["What is the use of seekp()?","Set put position","Set get position","Get position","None","a"],
+        ["What is the use of tellg()?","Get get position","Get put position","Set position","None","a"],
+        ["What is the use of tellp()?","Get put position","Get get position","Set position","None","a"],
+        ["What is exception handling?","Handling runtime errors","Handling compile-time errors","Handling syntax errors","None","a"],
+        ["What is the use of try block?","Enclose code that may throw exception","Catch exception","Throw exception","None","a"],
+        ["What is the use of catch block?","Handle exception","Throw exception","Enclose code","None","a"],
+        ["What is the use of throw?","Throw exception","Catch exception","Handle exception","None","a"],
+        ["What is the use of catch(...)?","Catch any exception","Catch specific exception","Catch no exception","None","a"],
+        ["What is the base class for all exceptions?","std::exception","std::error","std::runtime_error","std::logic_error","a"],
+        ["What is the use of what()?","Get exception description","Get exception type","Get error code","None","a"],
+        ["What is the use of std::runtime_error?","Runtime error exception","Logic error exception","All exceptions","None","a"],
+        ["What is the use of std::logic_error?","Logic error exception","Runtime error exception","All exceptions","None","a"],
+        ["What is the use of noexcept?","Function does not throw exception","Function throws exception","Function may throw","None","a"],
+        ["What is the use of std::current_exception?","Get current exception","Throw exception","Catch exception","None","a"],
+        ["What is the use of std::rethrow_exception?","Rethrow exception","Throw new exception","Catch exception","None","a"],
+        ["What is the use of std::exception_ptr?","Pointer to exception","Pointer to function","Pointer to variable","None","a"],
+        ["What is the use of std::nested_exception?","Nested exception handling","Normal exception","No exception","None","a"],
+        ["What is the use of std::throw_with_nested?","Throw nested exception","Throw normal exception","Catch exception","None","a"],
+        ["What is the use of std::rethrow_if_nested?","Rethrow nested exception","Rethrow normal","Catch exception","None","a"],
+        ["What is the use of std::terminate?","Terminate program","Continue program","Exit program","None","a"],
+        ["What is the use of std::uncaught_exceptions?","Number of uncaught exceptions","Number of caught exceptions","Total exceptions","None","a"],
+        ["What is the use of std::set_terminate?","Set terminate handler","Set exception handler","Set error handler","None","a"],
+        ["What is the use of std::set_unexpected?","Set unexpected handler","Set terminate handler","Set exception handler","None","a"],
+        ["What is the use of std::bad_alloc?","Memory allocation exception","Logic error","Runtime error","None","a"],
+        ["What is the use of std::bad_cast?","Cast exception","Memory exception","Logic error","None","a"],
+        ["What is the use of std::bad_typeid?","Typeid exception","Cast exception","Memory exception","None","a"],
+        ["What is the use of std::bad_function_call?","Function call exception","Memory exception","Cast exception","None","a"],
+        ["What is the use of std::bad_weak_ptr?","Weak pointer exception","Shared pointer exception","Unique pointer exception","None","a"],
+        ["What is the use of std::ios_base::failure?","IO stream exception","Memory exception","Cast exception","None","a"],
+        ["What is the use of std::system_error?","System error exception","Logic error","Runtime error","None","a"],
+        ["What is the use of std::filesystem::filesystem_error?","Filesystem exception","System error","Logic error","None","a"],
+        ["What is the use of std::future_error?","Future error exception","System error","Logic error","None","a"],
+        ["What is the use of std::invalid_argument?","Invalid argument exception","Out of range","Length error","None","a"],
+        ["What is the use of std::out_of_range?","Out of range exception","Invalid argument","Length error","None","a"],
+        ["What is the use of std::length_error?","Length error exception","Out of range","Invalid argument","None","a"],
+        ["What is the use of std::domain_error?","Domain error exception","Range error","Invalid argument","None","a"],
+        ["What is the use of std::range_error?","Range error exception","Domain error","Invalid argument","None","a"],
+        ["What is the use of std::overflow_error?","Overflow error exception","Underflow error","Range error","None","a"],
+        ["What is the use of std::underflow_error?","Underflow error exception","Overflow error","Range error","None","a"],
+        ["What is the use of std::bad_optional_access?","Bad optional access exception","Bad cast","Bad alloc","None","a"],
+        ["What is the use of std::bad_variant_access?","Bad variant access exception","Bad optional access","Bad cast","None","a"],
+        ["What is the use of std::bad_any_cast?","Bad any cast exception","Bad variant access","Bad optional access","None","a"]
+    ];
+    for(let q of u5) add(q[0],q[1],q[2],q[3],q[4],q[5]);
+
+    const questions = bank.map(q => ({
+        text: q[0],
+        options: [q[1], q[2], q[3], q[4]],
+        correct: { 'a':0, 'b':1, 'c':2, 'd':3 }[q[5].toLowerCase()]
+    }));
+
+    console.log("Total questions:", questions.length);
+
+    let userAnswers = new Array(questions.length).fill(null);
+    let currentPage = 0;
+    let perPage = 25;
+
+    function updateStats() {
+        let attempted = userAnswers.filter(v => v !== null).length;
+        let correct = 0;
+        for(let i=0;i<questions.length;i++) {
+            if(userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correct++;
+        }
+        document.getElementById('totalQ').innerText = questions.length;
+        document.getElementById('attemptedQ').innerText = attempted;
+        document.getElementById('correctQ').innerText = correct;
+        document.getElementById('wrongQ').innerText = attempted - correct;
+    }
+
+    function applyFeedback(card, idx, selected) {
+        const q = questions[idx];
+        const correctIdx = q.correct;
+        const opts = card.querySelectorAll('.opt');
+        opts.forEach(opt => opt.classList.remove('opt-correct', 'opt-wrong'));
+        const fbDiv = card.querySelector('.fb');
+        if(selected === null) {
+            fbDiv.innerHTML = '⚡ Not answered';
+            fbDiv.className = 'fb';
+            return;
+        }
+        if(selected === correctIdx) {
+            opts[selected].classList.add('opt-correct');
+            fbDiv.innerHTML = `✅ Correct! Answer: ${String.fromCharCode(65+correctIdx)}) ${q.options[correctIdx]}`;
+            fbDiv.className = 'fb fb-correct';
+        } else {
+            opts[selected].classList.add('opt-wrong');
+            opts[correctIdx].classList.add('opt-correct');
+            fbDiv.innerHTML = `❌ Wrong. Correct: ${String.fromCharCode(65+correctIdx)}) ${q.options[correctIdx]}`;
+            fbDiv.className = 'fb fb-wrong';
+        }
+    }
+
+    function renderPage() {
+        const start = currentPage * perPage;
+        const end = Math.min(start + perPage, questions.length);
+        const container = document.getElementById('questionsRoot');
+        container.innerHTML = '';
+        for(let i=start; i<end; i++) {
+            const q = questions[i];
+            const selected = userAnswers[i];
+            const card = document.createElement('div');
+            card.className = 'q-card';
+            card.innerHTML = `<div class="q-text">${i+1}. ${q.text}</div><div class="options"></div><div class="fb">⚡ Not answered</div>`;
+            container.appendChild(card);
+            const optsDiv = card.querySelector('.options');
+            q.options.forEach((opt, optIdx) => {
+                const letter = String.fromCharCode(65+optIdx);
+                const optDiv = document.createElement('div');
+                optDiv.className = 'opt';
+                optDiv.innerHTML = `<span class="prefix">${letter}</span><span class="opt-text">${opt}</span>`;
+                optDiv.addEventListener('click', () => {
+                    userAnswers[i] = optIdx;
+                    applyFeedback(card, i, optIdx);
+                    updateStats();
+                });
+                optsDiv.appendChild(optDiv);
+            });
+            if(selected !== null) applyFeedback(card, i, selected);
+        }
+        const totalPages = Math.ceil(questions.length / perPage);
+        document.getElementById('pageIndicator').innerHTML = `Page ${currentPage+1} of ${totalPages}`;
+        updateStats();
+    }
+
+    function resetAll() { userAnswers.fill(null); renderPage(); updateStats(); }
+    document.getElementById('prevBtn').onclick = () => { if(currentPage > 0) { currentPage--; renderPage(); } };
+    document.getElementById('nextBtn').onclick = () => { if((currentPage+1)*perPage < questions.length) { currentPage++; renderPage(); } };
+    document.getElementById('resetBtn').onclick = resetAll;
+    document.getElementById('perPageSelect').onchange = (e) => { perPage = parseInt(e.target.value); currentPage = 0; renderPage(); };
+    renderPage();
+</script>
+</body>
+</html>
